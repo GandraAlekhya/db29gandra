@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1= title 
+  p Racchu
+  div(class="container-fluid")
+        div(class="row")
+            -
+                let batman = [
+                    {
+                        "Actor": "cloney",
+                        "age": 60,
+                        "color": "black"
+                    },
+                    {
+                        "Actor": "Affleck",
+                        "age": 50,
+                        "color": "Black"
+                    },
+                    {
+                        "Actor": "bale",
+                        "age": 40,
+                        "color": "black"
+                    },                   
+                ]
+            each v,index in batman 
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.Actor}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.age}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.color}
+                
+  script.                
+        function buy(intemNo)
+        {
+              alert(`you purchased Item ${intemNo+1}`)
+        }                
