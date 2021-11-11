@@ -3,11 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const connectionString =  process.env.MONGO_CON 
+mongoose = require('mongoose'); 
+mongoose.connect(connectionString,  
+{useNewUrlParser: true, 
+useUnifiedTopology: true});
+
 var batmanRouter = require('./routes/batman');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
+var batman = require("./models/batman");
+var resourceRouter = require('./routes/resource'); 
 
 var app = express();
 
@@ -26,7 +34,7 @@ app.use('/batman', batmanRouter);
 app.use('/users', usersRouter);
 app.use('/selector', selectorRouter);
 app.use('/addmods', addmodsRouter);
-
+app.use('/resource', resourceRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -44,3 +52,29 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+//Get the default connection 
+var db = mongoose.connection; 
+ 
+//Bind connection to error event  
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); 
+db.once("open", function(){ 
+ console.log("Connection to DB succeeded")}); 
+ // We can seed the collection if needed on server start 
+async function recreateDB(){ 
+  // Delete everything 
+  await batman.deleteMany(); 
+ 
+  let instance1 = new batman({actor:"ABC",  age:4, color:'blue'}); 
+  instance1.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("First object saved") 
+  }); 
+  let instance2 = new batman({actor:"XYZ",  age:5, color:'orange'}); 
+  instance2.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("Second  object saved") 
+  }); 
+} 
+ 
+let reseed = true; 
+if (reseed) { recreateDB();} 
