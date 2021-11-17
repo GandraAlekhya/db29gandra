@@ -36,9 +36,17 @@ exports.batman_create_post = async function(req, res) {
 }; 
  
 // Handle batman delete form on DELETE. 
-exports.batman_delete = function(req, res) { 
-    res.send('NOT IMPLEMENTED: batman delete DELETE ' + req.params.id); 
-}; 
+exports.batman_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await batman.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+   }; 
  
 // Handle batman update form on PUT. 
 exports.batman_update_put = async function(req, res) { 
@@ -85,4 +93,15 @@ exports.batman_view_all_Page = async function(req, res) {
         res.send(`{"error": ${err}}`); 
     }   
 }; 
- 
+exports.batman_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await batman.findById( req.query.id)
+    res.render('batmandetail',
+   { title: 'batman Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };

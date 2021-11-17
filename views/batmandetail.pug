@@ -1,0 +1,22 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let batmanid = toShow._id 
+  - let batman_actor = toShow.actor 
+  - let batmanage = toShow.age 
+  - let batmancolor = toShow.color 
+  div 
+    div.row 
+      div(class='batmanAttr mr-3') batman ID is: 
+      div #{batmanid} 
+    div.row 
+      div(class='batmanAttr mr-3') batman actor is: 
+      div #{batman_actor} 
+    div.row 
+      div(class='batmanAttr mr-3') batman age is: 
+      div #{batmanage} 
+    div.row 
+      div(class='batmanAttr mr-3') batman color is: 
+      div #{batmancolor}
