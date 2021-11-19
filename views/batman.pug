@@ -1,19 +1,22 @@
 extends layout
 
 block content
-  h1= title 
-  p Racchu
-  div(class="container-fluid")
-        div(class="row")
-            -
-                let batman = results
-            each v,index in batman 
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.actor}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.age}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.color}
-                
-  script.                
-        function buy(intemNo)
-        {
-              alert(`you purchased Item ${intemNo+1}`)
-        }                
+
+  h1= title
+  - let array=[{"actor":"XYZ","age":5,"color":"orange"},{"actor":"ABC","age":4,"color":"blue"}]
+  - let items = results
+   div(class="container-fluid")
+    div(class="row m-1")
+     each item in array
+      - let destination = `dispatch(\"/fan/update?id=${item._id}\")`
+      div(class="col-sm-4",class="m-l") actor: #{item.actor}
+      div(class="col-sm-4",class="m-l") age: #{item.age}
+      div(class="col-sm-4",class="m-l") color: #{item.color}
+        button.btn( class="btn-primary ml-1", onclick= destination) Update
+
+
+
+   script.
+     function dispatch(path){
+       window.location.href=path
+     }
