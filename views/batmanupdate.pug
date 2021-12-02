@@ -1,45 +1,47 @@
-extends layout 
- 
-block content 
-  h1(class="text-center")= title 
-  if (toShow == null) 
-    h2 No instance to delete 
-  else 
-    - let batmanid = toShow._id 
-    - let batman_actor = toShow.batman_actor
-    - let batmanage = toShow.age 
-    - let batmancolor = toShow.color 
-    
-    div.row(class='text-center mb-2')
-        div.mr-1 ID is 
-        div #{batmanid} 
-    - let actionid = "/resource/batmans/" + batmanid 
-    form(id='batmanForm', class="text-center", action= actionid, method="PUT") 
-        div.form-group 
-            label.batmanAttr(for='batman_actor') batman actor
-            input#Brand(type='text', name='batman_actor', value= batman_actor ) 
-        div.form-group 
-            label.batmanAttr(for='batmanage') batman age
-            input#color(type='number', name='age', value= batmanage ) 
-        div.form-group 
-            label.batmanAttr(for='batmancolor') batman color
-            input#price(type='text', name='color', value= batmancolor ) 
-        input(type="submit" color="blue") 
-    
-    script. 
-        document.forms['batmanForm'].addEventListener('submit', (event) => { 
-        event.preventDefault(); 
-        // TODO do something here to show user that form is being submitted 
-        fetch(event.target.action, { 
-            method: 'PUT', 
-            body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
-        }).then((resp) => { 
-            return resp.text(); // or resp.text() or whatever the server sends 
-        }).then((body) => { 
-            alert("Update succeded") 
-            // TODO handle body 
-        }).catch((error) => { 
-            // TODO handle error 
-            alert("Update failed " + error ) 
-        }); 
-        });
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let batmanid = toShow._id
+    - let batmanBrand = toShow.actor
+    - let batmanprice = toShow.price
+    - let batmancolor = toShow.color
+  
+    div.row(class='mb-2')
+      div.mr-1 ID is
+      div #{batmanid}
+    - let actionid = "/resource/batman/" + batmanid
+    form(id='batmanForm', action= actionid, method="PUT")
+      div.form-group
+          label.batmanAttr(for='actor') batman actor
+          input#Brand(type='text', name='actor', value= batmanactor )
+      div.form-group
+          label.batmanAttr(for='price') batman price
+          input#price(type='number', name='price', value= batmanprice )
+      div.form-group
+          label.batmanAttr(for='color') batman color
+          input#color(type='text', name='color', value= batmancolor )
+      input(type="submit")
+
+  script.
+    document.forms['batmanForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      console.log(event.target)
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });

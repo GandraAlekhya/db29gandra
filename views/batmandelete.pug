@@ -1,53 +1,55 @@
-extends layout 
- 
-block content 
-  h1= title 
- 
-  if (toShow == null) 
-    h2 No instance to delete 
-  else 
-    - let batmanid = toShow._id 
-    - let batman_actor = toShow.batman_actor
-    - let batmanage = toShow.age
-    - let batmancolor = toShow.color 
-    - let actionid = "/resource/batmans/" + batmanid 
-    script let actionid = "#{actionid}" 
-    div 
-      div.row 
-        div(class='batmanAttr mr-3') batman ID is: 
-        div #{batmanid} 
-      div.row 
-        div(class='batmanAttr mr-3') batman actor is: 
-        div #{batman_actor} 
-      div.row 
-        div(class='batmanAttr mr-3') batman age is: 
-        div #{batmanage} 
-      div.row 
-        div(class='batmanAttr mr-3') batman Color is: 
-        div #{batmancolor} 
- 
-    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete 
-    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel 
- 
-  script. 
-    function cancel() { 
-      // Go back to the home page for the batman collection 
-      window.location.href='/batmans' 
-    } 
-  script. 
-    function deleteOnid() { 
-      console.log("starting delete") 
-      // delete first 
-      fetch(actionid, { 
-        method: 'DELETE'    
-      }).then((resp) => { 
-        return resp.text(); // or resp.text() or whatever the server sends 
-      }).then((body) => { 
-        alert("Delete succeded") 
-        window.location.href='/batmans' 
-        // TODO handle body 
-      }).catch((error) => { 
-        // TODO handle error 
-        alert("Delete failed " + error ) 
-      }); 
-    } 
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let batmanid = toShow._id
+    - let batmanBrand = toShow.actor
+    - let batmanprice = toShow.price
+    - let batmancolor = toShow.color
+    - let actionid = "/resource/batman/" + batmanid
+
+    script let actionid = "#{actionid}"
+    div
+      div.row
+        div(class='batmanAttr mr-3') batman ID is:
+        div(class='newAttr') #{batmanid}
+      div.row
+        div(class='batmanAttr mr-3') batman actor is:
+        div(class='newAttr') #{batmanBrand}
+      div.row
+        div(class='batmanAttr mr-3') batman price is:
+        div(class='newAttr') #{batmanprice}
+      div.row
+        div(class='batmanAttr mr-3') batman color is:
+        div(class='newAttr') #{batmancolor}
+      
+
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+      // Go back to the home page for the costume collection
+      window.location.href='/batman'
+    }
+  script.
+    function deleteOnid() {
+      console.log("Deleting the Resource")
+      // delete first
+      fetch(actionid, {
+        method: 'DELETE'      // Don't need a body for the delete
+      }).then((resp) => {
+        return resp.json();   // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Delete succeded")
+        window.location.href='/batman'
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Delete failed " + error )
+      });
+    }
